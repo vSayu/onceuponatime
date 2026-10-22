@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Para ti 💌</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Caveat:wght@500;700&family=Playfair+Display:ital@1&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#e0338f;--pink2:#fde3f0;--cream:#f4f0e6;--ink:#2b2622;--wine:#5a0a0a;--sky:#6f8fc0;--sky2:#e6f0fc}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Quicksand',sans-serif;background:var(--pink2);color:var(--ink);overflow-x:hidden}
+.screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#fff0f7;z-index:50;transition:opacity .8s}
+.screen.off{opacity:0;pointer-events:none}
+.lock{background:#fff;border-radius:24px;padding:28px 24px;width:min(340px,92vw);box-shadow:0 12px 40px #e0338f33;text-align:center}
+.lock h2{color:var(--pink);font-size:1.3rem}.lock small{color:#e58cb8;letter-spacing:.15em;font-size:.7rem}
+.dots{display:flex;justify-content:center;gap:6px;margin:18px 0;min-height:30px}
+.dots span{width:22px;border-bottom:2px solid #f4a9cf;text-align:center;font-size:1.1rem;height:28px}
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.keys button{border:0;background:#fde3f0;color:var(--pink);font:700 1.2rem Quicksand;padding:14px;border-radius:30px;cursor:pointer;transition:.15s}
+.keys button:active{background:#fbbbdc;transform:scale(.94)}
+.shake{animation:sh .4s}@keyframes sh{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+#hint{color:#c0397f;font-size:.8rem;min-height:1.2em;margin-top:12px}
+.music-btn{position:fixed;top:14px;right:14px;z-index:60;width:46px;height:46px;border-radius:50%;border:2px solid var(--pink);background:rgba(255,255,255,.85);color:var(--pink);font-size:1.5rem;cursor:pointer;display:grid;place-items:center;box-shadow:0 6px 18px rgba(224,51,143,.25);transition:.2s}
+.music-btn:hover{background:var(--pink);color:#fff;transform:rotate(10deg)}
+.music-btn.off{color:#aaa;border-color:#ccc}
+.gift{text-align:center}
+.box{width:220px;height:220px;margin:auto;border-radius:20px;background:#c9a2ff;position:relative;box-shadow:0 10px 30px #a070e055;display:flex;align-items:center;justify-content:center;font-size:5rem;animation:wob 1.2s infinite alternate}
+.box:before,.box:after{content:"";position:absolute;background:#b57dff}
+.box:before{left:42%;width:16%;top:0;bottom:0}.box:after{top:42%;height:16%;left:0;right:0}
+.box span{position:relative;z-index:2}
+@keyframes wob{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+.bar{width:220px;height:7px;background:#fff;border-radius:9px;margin:26px auto 8px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f7a1cd,#e0338f);transition:width .2s}
+.gift p{color:var(--pink);font-size:.85rem}
+.fl{position:fixed;bottom:-30px;pointer-events:none;z-index:5;animation:up linear forwards;opacity:.7}
+@keyframes up{to{transform:translateY(-110vh) rotate(40deg);opacity:0}}
+#catRain{position:fixed;inset:0;pointer-events:none;z-index:3;overflow:hidden}
+.cat{position:absolute;top:-60px;font-size:32px;animation:catfall linear forwards;z-index:3}
+@keyframes catfall{to{transform:translateY(110vh) rotate(360deg)}}
+.slot{position:relative;display:block;background:rgba(0,0,0,.05);border:2px dashed #0003;overflow:hidden;min-height:140px}
+.slot img{display:block;width:100%;height:100%;object-fit:cover}
+.slot .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;font:600 .8rem Quicksand;color:#0007;padding:8px}
+.slot.has{border:0;background:none}.slot.has .ph{display:none}
+.rv{opacity:0;transform:translateY(30px);transition:1s}.rv.in{opacity:1;transform:none}
+#s1{background:var(--cream);padding:60px 20px 80px;position:relative}
+.wrap{max-width:760px;margin:auto}
+.top{display:flex;justify-content:space-between;font:1rem 'Shadows Into Light';opacity:.7}
+.title{text-align:center;margin:36px 0 10px}
+.title small{font:1.1rem 'Shadows Into Light'}
+.title h1{font:700 clamp(3rem,12vw,5.5rem)/1 'Caveat';letter-spacing:1px}
+.title p{font:italic .95rem 'Playfair Display';opacity:.75;max-width:380px;margin:10px auto}
+.doodle{font-size:2rem;display:inline-block;animation:tw 3s infinite alternate}
+@keyframes tw{to{transform:rotate(15deg) scale(1.15)}}
+.row{display:flex;gap:26px;align-items:center;margin:44px 0;flex-wrap:wrap;justify-content:center}
+.frame{border:3px solid var(--ink);border-radius:6px 14px 8px 12px;padding:6px;background:#fff;box-shadow:4px 5px 0 #0002;transform:rotate(var(--r,-2deg));width:var(--w,300px);max-width:100%}
+.frame .slot{height:var(--h,220px)}
+.note{max-width:320px;font-size:.9rem;line-height:1.7;text-align:center}
+.note b{display:block;font:.9rem 'Shadows Into Light';margin-bottom:6px;letter-spacing:.1em}
+.word{font:700 2rem 'Caveat';transform:rotate(-4deg)}
+.big{font:700 clamp(2rem,9vw,3.4rem) 'Caveat';text-align:center;margin-top:30px}
+#s2{background:#fff;padding:70px 20px;position:relative;overflow:hidden}
+#s2:before,#s2:after{content:"";position:absolute;background:var(--wine);width:70px}
+#s2:before{left:0;top:90px;height:240px}#s2:after{right:0;bottom:200px;height:260px}
+.moon{width:80px;height:80px;border-radius:50%;margin:auto;background:radial-gradient(circle at 35% 35%,#ddd,#666 70%,#333);box-shadow:0 0 30px #0004}
+.names{text-align:center;font:700 1.5rem 'Caveat';letter-spacing:.2em;margin:12px 0 30px}
+.col{max-width:380px;margin:auto;position:relative}
+.col .f{border:4px solid var(--wine);background:#fff}.col .f .slot{height:200px}
+.col .mid{margin:-40px -22px;position:relative;z-index:2;background:#fff;padding:10px;box-shadow:0 8px 24px #0004}
+.col .mid .slot{height:240px}
+.lyrics{max-width:380px;margin:36px auto 0;text-transform:uppercase;font-size:.72rem;line-height:1.6;letter-spacing:.03em}
+.lyrics p{margin-bottom:16px}.lyrics em{display:block;text-align:right;font-size:.65em}
+.pill{display:block;max-width:380px;margin:30px auto 0;background:var(--wine);color:#fff;text-align:center;padding:16px;border-radius:40px;font-weight:700;letter-spacing:.1em}
+.yt-box{max-width:700px;margin:34px auto 0;text-align:center}
+.yt-label{font:700 1rem 'Quicksand';color:var(--pink);letter-spacing:.1em;display:block}
+.yt-frame{position:relative;width:100%;max-width:420px;aspect-ratio:16/9;margin:16px auto 0;border-radius:18px;overflow:hidden;border:4px solid var(--wine);box-shadow:0 8px 24px #5a0a0a44;background:#000}
+.yt-frame iframe{position:absolute;inset:0;width:100%;height:100%}
+.yt-btn{display:inline-block;margin-top:12px;font-size:.8rem;color:var(--wine);opacity:.7}
+#s3{background:var(--sky2);padding:50px 18px 70px;color:#4a6490}
+.paper{max-width:560px;margin:auto;background:#fff;padding:26px;border-radius:6px;box-shadow:0 6px 26px #6f8fc044;background-image:radial-gradient(#dbe7f7 1px,transparent 1px);background-size:14px 14px}
+.paper h2{font:700 clamp(2.4rem,11vw,4rem)/1 'Caveat';color:var(--sky);text-align:center;margin-bottom:22px}
+.paper h2 small{display:block;font-size:1.3rem;border:2px solid var(--sky);border-radius:30px;width:max-content;margin:6px auto 0;padding:2px 18px;background:#fff}
+.two{display:flex;gap:20px;align-items:flex-start;margin:28px 0}
+.two.image-right{flex-direction:row-reverse}
+.two>.slot{flex:0 0 39%;height:auto;min-height:0;aspect-ratio:1;border-radius:8px}
+.letter-text{flex:1;min-width:0}
+.paper .two p{text-align:left;font-size:.92rem;line-height:1.75}
+.paper p.letter-wide{max-width:470px;margin:28px auto;text-align:center}
+.paper p{line-height:1.85;font-size:1rem;text-align:center;white-space:pre-line}
+.us{font:1.3rem 'Caveat';color:#e58cb8;text-align:center;margin:14px 0}
+footer{background:var(--ink);color:#fff;text-align:center;padding:50px 20px}
+footer h3{font:700 2.2rem 'Caveat'}#days{font:700 3rem Quicksand;color:#ff9ccd}
+#deco-imgs{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:visible}
+.deco{position:absolute;filter:drop-shadow(0 8px 20px rgba(0,0,0,.15));opacity:.9}
+.d1{top:10%;left:-60px;width:150px;animation:driftL 8s ease-in-out infinite}
+.d2{top:5%;right:-70px;width:170px;animation:driftR 10s ease-in-out infinite}
+.d3{bottom:15%;left:-50px;width:130px;animation:driftL 7s ease-in-out infinite}
+.d4{bottom:8%;right:-80px;width:160px;animation:driftR 9s ease-in-out infinite}
+.d5{top:40%;right:-90px;width:140px;animation:driftR 11s ease-in-out infinite}
+@keyframes driftL{0%,100%{transform:translateX(0)}50%{transform:translateX(20px)}}
+@keyframes driftR{0%,100%{transform:translateX(0)}50%{transform:translateX(-20px)}}
+@media (max-width:600px){.music-btn{top:10px;right:10px;width:42px;height:42px;font-size:1.3rem}}
+@media (max-width:420px){.paper{padding:18px}.two{gap:12px}.two>.slot{flex-basis:36%}.paper .two p{font-size:.84rem;line-height:1.65}.paper p.letter-wide{font-size:.92rem}}
+</style>
+</head>
+<body>
+
+<button class="music-btn off" id="musicBtn" title="Música">♪</button>
+
+<!-- 1) CANDADO -->
+<div class="screen" id="lockS">
+  <div class="lock" id="lock">
+    <h2>Ingresa la fecha especial</h2><small>DD MM AA</small>
+    <div class="dots" id="dots"></div>
+    <div class="keys" id="keys"></div>
+    <div id="hint"></div>
+  </div>
+</div>
+
+<!-- 2) REGALO -->
+<div class="screen off" id="giftS">
+  <div class="gift"><div class="box"><span>🎁</span></div><div class="bar"><i id="fill"></i></div><p id="gt">Hice esto para ti... :3</p></div>
+</div>
+
+<main id="main" style="display:none">
+
+<div id="catRain"></div>
+
+<!-- 3) SCRAPBOOK -->
+<section id="s1"><div class="wrap">
+  <div class="top"><span>✎ para mi persona favorita</span><span>desde siempre ♡</span></div>
+  <div class="title rv">
+    <span class="doodle">✦</span><span class="doodle" style="animation-delay:.6s">⋆</span>
+    <small>esto es</small>
+    <h1 id="pair">Tú &amp; Yo</h1>
+    <small>nuestra historia de amor</small>
+    <p>Un amor que no necesita ser del todo perfecto para ser lindo. Aquí guardo un poquito de todo lo que siento por ti.</p>
+  </div>
+
+  <div class="row rv"><div class="frame" style="--r:-3deg;--w:230px;--h:170px"><label class="slot" data-img="img/1.jpg"><span class="ph">＋ imagen 1</span></label></div><span class="word" style="color:#7fb2d9">Tamo, nadie cambiará eso</span></div>
+
+  <div class="row rv">
+    <div class="frame" style="--r:2deg;--w:320px;--h:230px"><label class="slot" data-img="img/2.jpg"><span class="ph">＋ imagen 2</span></label></div>
+    <div class="note"><b>Eres mi lugar seguro, eres mi HOGAR</b>Contigo cualquier lugar se siente como casa. Me encanta cómo hasta los días simples contigo se vuelven especiales... Luego de no verte por mucho tiempo y volver a abrazarte, se siente como regresar a casa luego de un largo viaje, personalmente detesto los viajes kskjs.. Asi que detesto estar sin mi hermosa noviesita :/... Gracias por quedarte, gracias por ser tú.</div>
+  </div>
+
+  <div class="row rv">
+    <div class="note"><b>Nuestro INCREIBLE amor</b>No tengo ni idea de qué sería de mí si no te hubiera conocido.. Eres taaan importante para mi que no me imagino una vida sin ti. Eres mi noviesita, pero no solo eres eso, tambien te considero mi mejor amiga, mi refugio, mi psicóloga, mi risa favorita y mi persona.</div>
+    <div class="frame" style="--r:-2deg;--w:300px;--h:240px"><label class="slot" data-img="img/3.jpg"><span class="ph">＋ imagen 3</span></label></div>
+  </div>
+  <div class="row"><span class="word" style="color:#e58ca0">corona de flores</span><span class="word" style="color:#a58de0">lavanda</span><span class="word" style="color:#9fc5a0">campos verdes</span></div>
+
+  <div class="row rv">
+    <div class="frame" style="--r:3deg;--w:260px;--h:180px"><label class="slot" data-img="img/4.jpg"><span class="ph">＋ imagen 4</span></label></div>
+    <div class="note"><b>nuestro tiempo</b>Tus abrazos, tus mensajes, tus risas y tus besos... Cada momento a tu lado queda guardado en mí como la mejor página de mi vida.. No te das una idea de lo feliz que soy contigo :3</div>
+  </div>
+  <div class="big rv">once upon a time<br>we fell in LOVE ♡</div>
+
+  <div class="row rv">
+    <div class="frame" style="--r:-2deg;--w:280px;--h:200px"><label class="slot" data-img="img/10.jpg"><span class="ph">＋ imagen 10</span></label></div>
+    <div class="frame" style="--r:2deg;--w:280px;--h:200px"><label class="slot" data-img="img/11.jpg"><span class="ph">＋ imagen 11</span></label></div>
+    <span class="word" style="color:#f7a1cd">Siempre tú</span>
+  </div>
+  <div class="row rv">
+    <span class="word" style="color:#a58de0">Mi novia</span>
+    <div class="frame" style="--r:-1deg;--w:300px;--h:220px"><label class="slot" data-img="img/12.jpg"><span class="ph">＋ imagen 12</span></label></div>
+    <span class="word" style="color:#7fb2d9">Mi todo</span>
+  </div>
+  <div class="row rv" style="gap:10px;margin-top:40px">
+    <span class="word" style="color:#e58ca0">🌸</span><span class="word" style="color:#a58de0">✦</span><span class="word" style="color:#7fb2d9">♡</span><span class="word" style="color:#f7a1cd">⋆</span><span class="word" style="color:#9fc5a0">💖</span>
+  </div>
+</div></section>
+
+<!-- 4) MANGA / COLLAGE -->
+<section id="s2">
+  <div class="moon rv"></div>
+  <div class="names rv" id="pair2">Tú y Yo</div>
+  <div class="col rv">
+    <div class="f"><label class="slot" data-img="img/5.jpg"><span class="ph">＋ imagen 5</span></label></div>
+    <div class="mid"><label class="slot" data-img="img/6.jpg"><span class="ph">＋ imagen 6 (centro)</span></label></div>
+    <div class="f"><label class="slot" data-img="img/7.jpg"><span class="ph">＋ imagen 7</span></label></div>
+  </div>
+  <div class="lyrics rv">
+    <p>Desde que llegaste a mi vida<br>los días grises brillan muchisimo poco más<br>y no hay nadie más<br>con quien quiera estar.</p>
+    <p>Tú eres mi persona favorita<br>en todo este planeta.</p><p>Nunca cambiaria nada de lo que tenemos por nada</p><p>Eres el amor de mi vida, eres mi todo.</p>
+  </div>
+  <div class="pill rv">Te amo más que a nada... 💕 ♡</div>
+
+  <div class="yt-box rv">
+    <span class="yt-label">♪ canción para ti ♪</span>
+    <div class="yt-frame"><div id="ytPlayer"></div></div>
+    <a href="#" target="_blank" rel="noopener" class="yt-btn" id="ytBtn">¿no carga? ábrela en YouTube</a>
+  </div>
+</section>
+
+<!-- 5) CARTA -->
+<section id="s3"><div class="paper rv">
+  <h2>La única de<small>♡ mi vida ♡</small></h2>
+
+  <p class="letter-wide">Hola mi amor jksjks,
+
+Te escribo esto desde lo más profundo de mi corazón, porque cada vez que pienso en ti, el mundo se hace mucho más bonito, más suave, más lleno de luz... No sé cómo empezar a decirte todo lo que significas para mí, creo que es algo imposible porque realmente no hay palabras suficientes para abarcar todo el cariño y todo el amor que guardo en mi corazoncito por ti.</p>
+
+  <div class="two image-left">
+    <label class="slot" data-img="img/carta1.jpg"><span class="ph">＋ imagen carta 1</span></label>
+    <div class="letter-text">
+      <p>Eres mi persona favorita... No solo hoy, no solo ahora, sino siempre, siempre lo serás, solo tú mi amor, solo tú me haces sentir tan feliz, tan tranquilo y tan amado. Eres la primera persona en la que pienso cuando apenas me levanto de la camita skjsk, la primera persona que se me viene a la cabeza al cerrar los ojitos y la última en la que pienso antes de cerrarlos.</p>
+    </div>
+  </div>
+  <p class="letter-wide">Cada día a tu lado es un regalo que no merezco, pero que agradezco con todo mi ser... De verdad estoy demasiado agradecido contigo por lo increíble que eres conmigo. Sé que últimamente no has estado de la mejor manera posible, pero luego lo estarás... Y yo habré estado ahí para ayudarte.</p>
+
+  <div class="two image-right">
+    <label class="slot" data-img="img/carta2.jpg"><span class="ph">＋ imagen carta 2</span></label>
+    <div class="letter-text">
+      <p>Me encanta cómo eres, de verdad... Me encanta tu forma de reír, esa risa que me roba el alma y me hace sonreír aunque haya tenido el peor día de mi vida. Me encanta tu forma de hablar, de mirarme, de estar callada también... Me encanta hasta lo más chiquito de ti, esos detalles que a veces crees que no importan, pero que para mí son los más importantes del mundo.</p>
+    </div>
+  </div>
+  <p class="letter-wide">Gracias por quedarte. Gracias por elegirme cada día, por aguantar mis webadas, mis silencios y mis malos momentos. Gracias por ser tú, por ser tan especial, tan única, tan increíblemente hermosa por dentro y también por fuera...</p>
+
+  <div class="us">yo + tú = nosotros ♡</div>
+
+  <p class="letter-wide">Contigo me siento en casa. Contigo me siento seguro, feliz, tranquilo y completamente amado... No hay nada en este mundo que desee más que seguir a tu lado, seguir construyendo contigo, seguir enamorándome de ti cada mañana, cada tarde, cada noche...
+
+Prometo cuidarte siempre... Prometo escucharte, incluso cuando no tengas ganas de hablar. Prometo buscar siempre la forma de arreglar las cosas juntos, incluso cuando estemos molestos o cansados. Prometo no darte nunca por sentada, porque sé lo valiosa que eres... Y yo te valoro un montón.</p>
+
+  <div class="two image-left">
+    <label class="slot" data-img="img/carta3.jpg"><span class="ph">＋ imagen carta 3</span></label>
+    <div class="letter-text"><p>Eres mi refugio, mi paz, mi alegría, mi todo... Te amo más de lo que puedo decir, más de lo que puedo escribir, más de lo que mi corazón puede contener... Mi corazón tiene tremenda wata de lo relleno de amor que está. Y te seguiré amando, hoy, mañana y siempre... TODA LA ETERNIDAD 💕</p></div>
+  </div>
+
+  <div class="two image-right">
+    <label class="slot" data-img="img/carta4.jpg"><span class="ph">＋ imagen carta 4</span></label>
+    <div class="letter-text"><p>Para el mundo quizás eres una persona más, pero para mí eres todo. Eres mi sol en los días nublados, mi abrazo cuando todo sale mal, mi razón para sonreír sin motivo. No me imagino una vida sin ti, no quiero imaginarla tampoco kskls, de solo pensarlo me da pánico... Quiero seguir escribiendo nuestra historia, página por página, con mucho amor, mucha paciencia y muchísimo cariño...</p></div>
+  </div>
+  <p class="letter-wide">Eres la mujer de mi vida. La que quiero a mi lado cada día al despertar en nuestra casita, en cada tarde de ver películas, en cada noche de hablar de lo que sea, en cada momento bueno y en cada momento difícil. Tú y yo contra el mundo, recuérdalo siempre.</p>
+
+  <div class="two image-left">
+    <label class="slot" data-img="img/carta5.jpg"><span class="ph">＋ imagen carta 5</span></label>
+    <div class="letter-text"><p>Gracias por existir. Gracias por llegar a mi vida y cambiarla para siempre... Gracias por ser mi novia, mi compañera, mi mejor amiga, mi persona favorita. Te quiero con todo mi corazón, con toda mi alma, con todo lo que soy...
+
+Siempre. Siempre. Siempre. &lt;3</p></div>
+  </div>
+</div></section>
+
+<footer>
+  <h3>Y lo mejor es que seguimos sumando...</h3>
+  <div id="days">0</div><p>días queriéndote</p>
+  <p style="margin-top:24px;opacity:.6;font-size:.85rem">Hecho con amor, solo para ti 💗</p>
+</footer>
+
+<div id="deco-imgs">
+  <img src="img/deco/deco1.png" class="deco d1" alt="" onerror="this.remove()">
+  <img src="img/deco/deco2.png" class="deco d2" alt="" onerror="this.remove()">
+  <img src="img/deco/deco3.png" class="deco d3" alt="" onerror="this.remove()">
+  <img src="img/deco/deco4.png" class="deco d4" alt="" onerror="this.remove()">
+  <img src="img/deco/deco5.png" class="deco d5" alt="" onerror="this.remove()">
+</div>
+
+</main>
+
+<audio id="bgMusic"><source src="musica.mp3" type="audio/mpeg"></audio>
+
+<script>
+/* ============ CONFIG ============ */
+const CONFIG = {
+  fecha: "020626",          // DDMMAA  → 02/06/26
+  nombres: "Tú & Yo",       // ej: "Ana & Luis"
+  pista: "Pista: la fecha en que empezó todo ♡",
+  youtubeId: "f5-IY_Ja1RM",
+  volumenMusica: 0.05,       // 0 = silencio, 1 = volumen completo
+  esperaMusica: 5000,       // empieza a reproducirse 5 s después de ingresar la contraseña
+  duracionFade: 14000,      // fundido gradual durante los primeros 14 s de la pista
+  inicioMusica: 0,          // reproduce el archivo completo desde 0:00
+  finMusica: 312,           // salta al llegar a 5:12.000
+  reinicioMusica: 14.625,   // vuelve a 0:14.625 para disimular el bucle
+  // PNG de gatitos: ponlos en la carpeta img/gatos/ (si no hay, caen emojis 🐱)
+  gatos: ["img/gatos/michi1.png", "img/gatos/michi2.png", "img/gatos/michi3.png"]
+};
+/* ================================== */
+const $ = s => document.querySelector(s);
+const LEN = CONFIG.fecha.length;
+let code = "";
+const dots = $("#dots"), keys = $("#keys");
+for (let i=0;i<LEN;i++) dots.innerHTML += "<span></span>";
+function draw(){[...dots.children].forEach((d,i)=>d.textContent = i<code.length?"❤️":"")}
+["1","2","3","4","5","6","7","8","9","","0","←"].forEach(k=>{
+  const b=document.createElement("button");b.textContent=k;if(!k)b.style.visibility="hidden";
+  b.onclick=()=>{
+    if(k==="←")code=code.slice(0,-1);else if(code.length<LEN)code+=k;
+    draw();if(code.length===LEN)check();
+  };keys.appendChild(b);
+});
+function check(){
+  if(code===CONFIG.fecha){startGift()}
+  else{$("#lock").classList.add("shake");$("#hint").textContent=CONFIG.pista;
+    setTimeout(()=>{$("#lock").classList.remove("shake");code="";draw()},450)}
+}
+function startGift(){
+  $("#lockS").classList.add("off");$("#giftS").classList.remove("off");
+  musicStartTimer=setTimeout(()=>startMusicWithFade(CONFIG.inicioMusica),CONFIG.esperaMusica);
+  let p=0;const msgs=["Preparando algo para ti...","Poniendo todo mi cariño...","Casi listo ♡"];
+  const t=setInterval(()=>{p+=Math.random()*9+3;if(p>=100){p=100;clearInterval(t);setTimeout(abrir,500)}
+    $("#fill").style.width=p+"%";$("#gt").textContent=msgs[Math.min(2,Math.floor(p/34))]},180);
+}
+function abrir(){
+  $("#giftS").classList.add("off");$("#main").style.display="block";
+  $("#pair").textContent=CONFIG.nombres;$("#pair2").textContent=CONFIG.nombres;
+  $("#ytBtn").href="https://www.youtube.com/watch?v="+CONFIG.youtubeId;
+  cargarYT();
+  const d=CONFIG.fecha, start=new Date(2000+ +d.slice(4,6),+d.slice(2,4)-1,+d.slice(0,2));
+  $("#days").textContent=Math.max(0,Math.floor((Date.now()-start)/864e5)).toLocaleString("es");
+  setTimeout(()=>document.querySelectorAll(".rv").forEach(e=>io.observe(e)),50);
+  setInterval(heart,900);
+  iniciarLluviaGatos();
+  escribirPagina();
+}
+
+/* ---- efecto máquina de escribir (respeta <b>, <br>, <small>) ---- */
+function escribirPagina(){
+  const grupos=[
+    ["#s1 .title small, #s1 .title h1, #s1 .title p, #s1 .note, #s1 .big",18],
+    ["#s2 .names, #s2 .lyrics p, #s2 .pill",18],
+    ["#s3 h2, #s3 .us, #s3 .paper p, footer h3, footer p",9]
+  ];
+  grupos.forEach(([sel,vel])=>{
+    const items=[];
+    document.querySelectorAll(sel).forEach(el=>{
+      const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),nodes=[];
+      while(w.nextNode()) if(w.currentNode.textContent.trim()) nodes.push(w.currentNode);
+      el.style.minHeight=el.offsetHeight+"px";
+      items.push(nodes.map(n=>{const t=n.textContent;n.textContent="";return{n,t}}));
+    });
+    const lista=items.flat();let i=0;
+    (function sig(){
+      if(i>=lista.length)return;
+      const {n,t}=lista[i];let j=0;
+      (function ch(){
+        if(j<t.length){n.textContent+=t[j++];setTimeout(ch,vel)}
+        else{i++;setTimeout(sig,200)}
+      })();
+    })();
+  });
+}
+
+/* ---- reproductor de YouTube dentro de la página ---- */
+function cargarYT(){
+  window.onYouTubeIframeAPIReady=()=>new YT.Player("ytPlayer",{
+    videoId:CONFIG.youtubeId,playerVars:{rel:0,playsinline:1},
+    events:{onStateChange:e=>{if(e.data===1)setMusic(false)}} /* al dar play, pausa la música de fondo */
+  });
+  const s=document.createElement("script");s.src="https://www.youtube.com/iframe_api";document.head.appendChild(s);
+}
+
+/* ---- música ---- */
+const bgMusic=$("#bgMusic"),musicBtn=$("#musicBtn");
+bgMusic.volume=CONFIG.volumenMusica;
+let musicStartTimer;
+let musicRepeatTimer;
+let musicFadeTimer;
+function setMusic(on){
+  if(on)clearTimeout(musicRepeatTimer);
+  if(!on){
+    clearTimeout(musicStartTimer);
+    clearTimeout(musicRepeatTimer);
+    clearInterval(musicFadeTimer);
+    musicFadeTimer=null;
+    bgMusic.volume=CONFIG.volumenMusica;
+  }
+  if(on){bgMusic.play().then(()=>{musicBtn.classList.remove("off");musicBtn.textContent="♫"}).catch(()=>{})}
+  else{bgMusic.pause();musicBtn.classList.add("off");musicBtn.textContent="♪"}
+}
+function startMusicWithFade(startAt=CONFIG.inicioMusica){
+  clearTimeout(musicRepeatTimer);
+  clearInterval(musicFadeTimer);
+  musicFadeTimer=null;
+  bgMusic.currentTime=startAt;
+  bgMusic.volume=0;
+  bgMusic.play().then(()=>{
+    musicBtn.classList.remove("off");musicBtn.textContent="♫";
+    const steps=40,stepMs=CONFIG.duracionFade/steps;
+    let step=0;
+    musicFadeTimer=setInterval(()=>{
+      step++;
+      bgMusic.volume=CONFIG.volumenMusica*(step/steps);
+      if(step>=steps){clearInterval(musicFadeTimer);musicFadeTimer=null}
+    },stepMs);
+  }).catch(()=>{bgMusic.volume=CONFIG.volumenMusica});
+}
+musicBtn.onclick=()=>{
+  clearTimeout(musicStartTimer);
+  if(bgMusic.paused)startMusicWithFade();
+  else setMusic(false);
+};
+bgMusic.addEventListener("ended",()=>{
+  bgMusic.currentTime=CONFIG.reinicioMusica;
+  bgMusic.play().catch(()=>{});
+});
+bgMusic.addEventListener("timeupdate",()=>{
+  if(bgMusic.currentTime>=CONFIG.finMusica){
+    bgMusic.currentTime=CONFIG.reinicioMusica;
+  }
+});
+
+/* ---- lluvia de gatitos ---- */
+const catRain=$("#catRain");
+function spawnCat(){
+  const c=document.createElement("img");c.className="cat";c.alt="";
+  c.src=CONFIG.gatos[Math.floor(Math.random()*CONFIG.gatos.length)];
+  c.style.width=(40+Math.random()*25)+"px";
+  c.onerror=()=>{c.replaceWith(Object.assign(document.createElement("span"),{className:"cat",textContent:"🐱",style:c.getAttribute("style")}))};
+  c.style.left=Math.random()*100+"vw";
+  c.style.animationDuration=(3+Math.random()*4)+"s";
+  catRain.appendChild(c);
+  setTimeout(()=>{c.remove()},8000);
+}
+function iniciarLluviaGatos(){
+  for(let i=0;i<10;i++) setTimeout(spawnCat,i*700);
+  setInterval(spawnCat,1500);
+}
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("in")}),{threshold:.15});
+function heart(){const h=document.createElement("div");h.className="fl";h.textContent=["💗","💕","✨","🌸","🐾"][Math.random()*5|0];
+  h.style.left=Math.random()*100+"vw";h.style.fontSize=12+Math.random()*16+"px";h.style.animationDuration=6+Math.random()*5+"s";
+  document.body.appendChild(h);setTimeout(()=>h.remove(),11000)}
+
+/* ---- imágenes: carga img/N.jpg si existe ---- */
+document.querySelectorAll(".slot").forEach(s=>{
+  const t=new Image();
+  t.onload=()=>{let im=s.querySelector("img");if(!im){im=new Image();s.appendChild(im)}im.src=s.dataset.img;s.classList.add("has")};
+  t.src=s.dataset.img;
+});
+</script>
+</body>
+</html>
