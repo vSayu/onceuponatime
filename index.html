@@ -99,8 +99,19 @@ footer h3{font:700 2.2rem 'Caveat'}#days{font:700 3rem Quicksand;color:#ff9ccd}
 .d5{top:40%;right:-90px;width:140px;animation:driftR 11s ease-in-out infinite}
 @keyframes driftL{0%,100%{transform:translateX(0)}50%{transform:translateX(20px)}}
 @keyframes driftR{0%,100%{transform:translateX(0)}50%{transform:translateX(-20px)}}
-@media (max-width:600px){.music-btn{top:10px;right:10px;width:42px;height:42px;font-size:1.3rem}}
-@media (max-width:420px){.paper{padding:18px}.two{gap:12px}.two>.slot{flex-basis:36%}.paper .two p{font-size:.84rem;line-height:1.65}.paper p.letter-wide{font-size:.92rem}}
+@media (max-width:600px){
+  .music-btn{top:10px;right:10px;width:42px;height:42px;font-size:1.3rem}
+  .d1{left:-32px;width:82px}
+  .d2{right:-38px;width:92px}
+  .d3{left:-28px;width:72px}
+  .d4{right:-42px;width:86px}
+  .d5{right:-42px;width:76px}
+  .paper{padding:clamp(16px,5vw,24px)}
+  .paper .two,.paper .two.image-right{flex-direction:column;align-items:stretch;gap:16px;margin:24px 0}
+  .paper .two>.slot{flex:none;width:min(100%,210px);align-self:center}
+  .paper .two p{font-size:.96rem;line-height:1.75;text-align:center}
+  .paper p.letter-wide{font-size:.96rem;line-height:1.8;margin:24px auto}
+}
 </style>
 </head>
 <body>
